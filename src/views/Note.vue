@@ -14,8 +14,6 @@
 
       <div class="col">
         <div class="row">
-          
-          
           <button class="btn save" @click="buttonSaveClick">Сохранить</button>
           <button class="btn delete" @click="buttonDeleteClick">Удалить</button>
           <button class="btn cancel" @click="buttonCancelClick">
@@ -175,16 +173,7 @@ export default {
       this.wantSave = false;
 
       if (result) {
-        const bufNote = JSON.parse(
-          JSON.stringify(
-            this.note
-              ? { ...this.note, ...this.localNote }
-              : { id: this.$route.params.id, ...this.localNote }
-          )
-        );
-        this.ChangeNote(bufNote);
-
-        this.$router.push({ name: "Notes" });
+        this.SaveNote();
       }
     },
 
@@ -230,18 +219,21 @@ export default {
       if (this.localNote.name.length == 0) {
         this.wantSave = true;
       } else {
-        // создаём предельно полную копию объекта для сохранения его в сторе
-        const bufNote = JSON.parse(
-          JSON.stringify(
-            this.note
-              ? { ...this.note, ...this.localNote }
-              : { id: this.$route.params.id, ...this.localNote }
-          )
-        );
-        this.ChangeNote(bufNote);
-
-        this.$router.push({ name: "Notes" });
+        this.SaveNote();
       }
+    },
+    SaveNote() {
+      // создаём предельно полную копию объекта для сохранения его в сторе
+      const bufNote = JSON.parse(
+        JSON.stringify(
+          this.note
+            ? { ...this.note, ...this.localNote }
+            : { id: this.$route.params.id, ...this.localNote }
+        )
+      );
+      this.ChangeNote(bufNote);
+
+      this.$router.push({ name: "Notes" });
     },
     buttonCancelClick() {
       if (this.wasEdited) this.wantCancel = true;
@@ -395,7 +387,7 @@ export default {
 }
 
 .notwrap {
-  flex-wrap: nowrap ;
+  flex-wrap: nowrap;
 }
 
 .root {
